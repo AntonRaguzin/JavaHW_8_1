@@ -5,26 +5,28 @@ import ru.netology.javaHW_8_1.repository.ProductRepository;
 
 public class ProductManager {
 
-    ProductRepository prodRep = new ProductRepository();
+    ProductRepository prodRepo = new ProductRepository();
 
     public Product[] searchBy(String text) {
 
-        Product[] result = new Product[1]; // тут будем хранить подошедшие запросу продукты
+        Product[] result = new Product[0];
 
-        int copyToIndex = 0;
+        for (Product product : prodRepo.findAll()) {
 
-        for (Product product : prodRep.findAll()) {
             if (matches(product, text)) {
-
-                result[copyToIndex] = product;
-                copyToIndex++;
+                Product[] tmp = new Product[result.length + 1];
+                for (int i = 0; i < result.length; i++) {
+                    tmp[i] = result[i];
+                }
+                tmp[tmp.length - 1] = product;
+                result = tmp;
             }
         }
         return result;
     }
 
-    public boolean matches(Product product, String search) {
-        if (product.getName().contains(search)) {
+    public boolean matches(Product product, String text) {
+        if (product.getName().contains(text)) {
             return true;
         } else {
             return false;

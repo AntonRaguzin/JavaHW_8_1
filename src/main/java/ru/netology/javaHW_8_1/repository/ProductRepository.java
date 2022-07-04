@@ -13,6 +13,7 @@ public class ProductRepository {
         tmp[tmp.length - 1] = product;
         products = tmp;
     }
+
     public Product[] findAll(){
         return products;
     }

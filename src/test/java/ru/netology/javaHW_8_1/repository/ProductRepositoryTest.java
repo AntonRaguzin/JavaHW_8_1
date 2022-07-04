@@ -17,6 +17,7 @@ public class ProductRepositoryTest {
 
     ProductRepository repo =  new ProductRepository();
 
+
     @Test
     public void shouldSaveNewProd(){
         repo.save(p1);
@@ -39,5 +40,4 @@ public class ProductRepositoryTest {
 
         assertArrayEquals(expected, actual);
     }
-
 }

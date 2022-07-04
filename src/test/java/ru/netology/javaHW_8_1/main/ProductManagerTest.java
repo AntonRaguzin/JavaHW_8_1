@@ -1,7 +1,8 @@
 package ru.netology.javaHW_8_1.main;
 
 
-import static org.junit.jupiter.api.Assertions .*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import ru.netology.javaHW_8_1.products.Book;
 import ru.netology.javaHW_8_1.products.Product;
@@ -24,9 +25,11 @@ public class ProductManagerTest {
     @Test
     public void shouldFindMatchInProd() {
 
+
         manager.matches(p1, "book_1");
         assertEquals(true, manager.matches(p1, "book_1"));
     }
+
     @Test
     public void shouldNotFindMatchInProd() {
 
@@ -36,16 +39,16 @@ public class ProductManagerTest {
 
 
     @Test
-    public void shouldSearchMatches(){
+    public void shouldSearchMatches() {
 
         repo.save(p3);
         repo.save(p4);
         repo.save(p5);
 
-        manager.searchBy("book_3");
+        manager.searchBy("book_2");
 
-        Product[] expected = {p4};
-        Product[] actual = manager.searchBy("book_3");
+        Product[] expected = {p3};
+        Product[] actual = manager.searchBy("book_2");
 
         assertArrayEquals(expected, actual);
     }
