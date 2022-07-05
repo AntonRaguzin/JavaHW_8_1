@@ -2,6 +2,7 @@ package ru.netology.javaHW_8_1.repository;
 
 import static org.junit.jupiter.api.Assertions .*;
 import org.junit.jupiter.api.Test;
+import ru.netology.javaHW_8_1.main.NotFoundException;
 import ru.netology.javaHW_8_1.products.Book;
 import ru.netology.javaHW_8_1.products.Product;
 import ru.netology.javaHW_8_1.products.Smartphone;
@@ -33,11 +34,54 @@ public class ProductRepositoryTest {
 
         repo.save(p3);
         repo.save(p6);
+        repo.save(p4);
+
         repo.removeById(p3.getId());
         repo.removeById(6);
-        Product[] expected = {};
+        Product[] expected = {p4};
         Product[] actual = repo.findAll();
 
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindByID(){
+        repo.save(p1);
+        assertEquals(p1, repo.findById(1));
+    }
+    @Test
+    public void shouldNotFindByID(){
+        repo.save(p1);
+        assertEquals(null, repo.findById(2));
+    }
+    @Test
+    public void shouldGenerateExceptionWhenRemoveByNotFoundId(){
+
+        repo.save(p4);
+        repo.save(p5);
+        repo.save(p6);
+
+
+//        try {
+//            repo.removeById(-3);
+////            System.out.println("OK");
+//        } catch (NotFoundException e){
+//            System.out.println(e);
+//        }
+        assertThrows(NotFoundException.class, () ->{
+           repo.removeById(10);
+        });
+
+    }
+    @Test
+    public void testShouldFinishWithNotFoundException(){
+
+        repo.save(p1);
+        repo.save(p2);
+        repo.save(p3);
+
+        assertThrows(NotFoundException.class, () -> {
+            repo.removeById(30);
+        });
     }
 }

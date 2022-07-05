@@ -23,6 +23,9 @@ public class ProductManager {
     public Product[] findAll() {
         return repo.findAll();
     }
+    public Product findById(int id) {
+        return repo.findById(id);
+    }
 
     public Product[] searchBy(String text) {
 
@@ -51,6 +54,7 @@ public class ProductManager {
         } else {
             return false;
         }
-
     }
+
 }
+

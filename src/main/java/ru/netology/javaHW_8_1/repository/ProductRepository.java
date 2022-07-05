@@ -1,4 +1,5 @@
 package ru.netology.javaHW_8_1.repository;
+import ru.netology.javaHW_8_1.main.NotFoundException;
 import ru.netology.javaHW_8_1.products.Product;
 
 public class ProductRepository {
@@ -18,15 +19,32 @@ public class ProductRepository {
         return products;
     }
 
-    public void removeById (int id){
-        Product[] tmp = new Product[products.length - 1];
-        int copyToIndex = 0;
-        for (Product product : products){
-            if (product.getId() != id) {
-                tmp[copyToIndex] = product;
-                copyToIndex++;
+    public void removeById (int id) {
+        if (findById(id) == null) {
+            throw new NotFoundException(                        // упрощаем запись не заводя переменную е
+                    "Указанный ID не найден: " + id
+            );
+//            RuntimeException e = new RuntimeException(
+//                    "ID не может быть отрицательным : " + id);
+//            throw e;
+        }
+            Product[] tmp = new Product[products.length - 1];
+            int copyToIndex = 0;
+            for (Product product : products) {
+                if (product.getId() != id) {
+                    tmp[copyToIndex] = product;
+                    copyToIndex++;
+                }
+            }
+        products = tmp;
+
+    }
+    public Product findById(int id) {
+        for (Product product : findAll()) {
+            if (product.getId() == id) {
+                return product;
             }
         }
-        products = tmp;
+        return null;
     }
 }
