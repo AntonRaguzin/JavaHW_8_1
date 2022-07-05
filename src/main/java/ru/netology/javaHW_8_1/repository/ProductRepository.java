@@ -1,4 +1,5 @@
 package ru.netology.javaHW_8_1.repository;
+import ru.netology.javaHW_8_1.main.AlreadyExistsException;
 import ru.netology.javaHW_8_1.main.NotFoundException;
 import ru.netology.javaHW_8_1.products.Product;
 
@@ -7,6 +8,12 @@ public class ProductRepository {
     private Product[] products = new Product[0];
 
     public void save(Product product){
+        if (product == findById(product.getId())) {
+            throw new AlreadyExistsException(
+                    "товар с таким ID уже существует: " + product.getId()
+            );
+        }
+
         Product[] tmp = new Product[products.length + 1];
         for (int i = 0; i < products.length; i++) {
             tmp[i] = products[i];

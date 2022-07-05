@@ -2,6 +2,7 @@ package ru.netology.javaHW_8_1.repository;
 
 import static org.junit.jupiter.api.Assertions .*;
 import org.junit.jupiter.api.Test;
+import ru.netology.javaHW_8_1.main.AlreadyExistsException;
 import ru.netology.javaHW_8_1.main.NotFoundException;
 import ru.netology.javaHW_8_1.products.Book;
 import ru.netology.javaHW_8_1.products.Product;
@@ -28,6 +29,16 @@ public class ProductRepositoryTest {
         Product[] actual = repo.findAll();
 
         assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void shouldNotSaveNewProdWithDuplicateId(){
+
+        repo.save(p1);
+        repo.save(p2);
+
+        assertThrows(AlreadyExistsException.class, () -> {
+            repo.save(p1);
+        });
     }
     @Test
     public void shouldRemoveById(){
@@ -73,15 +84,15 @@ public class ProductRepositoryTest {
         });
 
     }
-    @Test
-    public void testShouldFinishWithNotFoundException(){
-
-        repo.save(p1);
-        repo.save(p2);
-        repo.save(p3);
-
-        assertThrows(NotFoundException.class, () -> {
-            repo.removeById(30);
-        });
-    }
+//    @Test
+//    public void testShouldFinishWithNotFoundException(){
+//
+//        repo.save(p1);
+//        repo.save(p2);
+//        repo.save(p3);
+//
+//        assertThrows(NotFoundException.class, () -> {
+//            repo.removeById(30);
+//        });
+//    }
 }
