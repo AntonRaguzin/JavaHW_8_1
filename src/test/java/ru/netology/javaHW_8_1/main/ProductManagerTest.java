@@ -20,7 +20,6 @@ public class ProductManagerTest {
     Product p6 = new Smartphone(6, "Phone-3", 19_000, "Manuf_1");
 
     ProductManager manager = new ProductManager(new ProductRepository());
-//    ProductRepository repo = new ProductRepository();
 
     @Test
     public void shouldAddNewProd() {
@@ -104,6 +103,40 @@ public class ProductManagerTest {
 
         assertArrayEquals(expected, actual);
     }
+//    @Test
+//    public void shouldRemoveByIdNew() {
+//
+//        manager.add(p3);
+//
+//
+//        manager.removeById(-1);
+//
+//        Product[] expected = {};
+//        Product[] actual = manager.findAll();
+//
+//        assertArrayEquals(expected, actual);
+//    }
+    @Test
+    public void shouldFindById(){
 
+        manager.add(p1);
+        manager.add(p2);
+
+        Product expected = p2;
+        Product actual = manager.findById(2);
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void shouldNotFindById(){
+
+        manager.add(p1);
+        manager.add(p2);
+
+        Product expected = null;
+        Product actual = manager.findById(-1);
+
+        assertEquals(expected, actual);
+    }
 
 }
