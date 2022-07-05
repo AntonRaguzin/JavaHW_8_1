@@ -12,22 +12,47 @@ import ru.netology.javaHW_8_1.repository.ProductRepositoryTest;
 
 public class ProductManagerTest {
 
-    Product p1 = new Book(1, "book_1", 550, "Author_1");
-    Product p2 = new Smartphone(2, "phone_1", 9_000, "Manuf_1");
-    Product p3 = new Book(3, "Book_2", 990, "Author_1");
-    Product p4 = new Book(4, "Book_3", 1_000, "Author_2");
-    Product p5 = new Smartphone(5, "phone_2", 9_990, "Manuf_2");
-    Product p6 = new Smartphone(6, "phone_3", 19_000, "Manuf_1");
+    Product p1 = new Book(1, "Book-1", 550, "Author_1");
+    Product p2 = new Smartphone(2, "Phone-1", 9_000, "Manuf_1");
+    Product p3 = new Book(3, "Book-2", 990, "Author_1");
+    Product p4 = new Book(4, "Book-3", 1_000, "Author_2");
+    Product p5 = new Smartphone(5, "Phone-2", 9_990, "Manuf_2");
+    Product p6 = new Smartphone(6, "Phone-3", 19_000, "Manuf_1");
 
-    ProductManager manager = new ProductManager();
-    ProductRepository repo = new ProductRepository();
+    ProductManager manager = new ProductManager(new ProductRepository());
+//    ProductRepository repo = new ProductRepository();
+
+    @Test
+    public void shouldAddNewProd() {
+        manager.add(p1);
+        manager.add(p2);
+
+        Product[] expected = {p1, p2};
+        Product[] actual = manager.findAll();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldRemoveById() {
+
+        manager.add(p3);
+        manager.add(p6);
+        manager.removeById(p3.getId());
+        manager.removeById(6);
+
+        Product[] expected = {};
+        Product[] actual = manager.findAll();
+
+        assertArrayEquals(expected, actual);
+    }
 
     @Test
     public void shouldFindMatchInProd() {
 
 
-        manager.matches(p1, "book_1");
-        assertEquals(true, manager.matches(p1, "book_1"));
+        manager.matches(p1, "Book-1");
+        assertEquals(true, manager.matches(p1, "Book-1"));
     }
 
     @Test
@@ -37,19 +62,48 @@ public class ProductManagerTest {
         assertEquals(false, manager.matches(p5, "book_1"));
     }
 
+    @Test
+    public void shouldNotFindMatchIfWrongText() {
+        manager.matches(p1, "книга1");
+        assertEquals(false, manager.matches(p1, "книга1"));
+    }
 
     @Test
-    public void shouldSearchMatches() {
+    public void shouldFindMatch() {
 
-        repo.save(p3);
-        repo.save(p4);
-        repo.save(p5);
+        manager.add(p2);
+        manager.add(p3);
 
-        manager.searchBy("book_2");
-
-        Product[] expected = {p3};
-        Product[] actual = manager.searchBy("book_2");
+        Product[] expected = {p2};
+        Product[] actual = manager.searchBy("Phone-1");
 
         assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void shouldFindMatches() {
+
+        manager.add(p1);
+        manager.add(p2);
+        manager.add(p3);
+
+        Product[] expected = {p1, p3};
+        Product[] actual = manager.searchBy("Book");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldNotFindMatch() {
+
+        manager.add(p1);
+        manager.add(p2);
+
+        Product[] expected = {};
+        Product[] actual = manager.searchBy("Book-6");
+
+        assertArrayEquals(expected, actual);
+    }
+
+
 }

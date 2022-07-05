@@ -31,9 +31,9 @@ public class ProductRepositoryTest {
     @Test
     public void shouldRemoveById(){
 
-        repo.save(p2);
+        repo.save(p3);
         repo.save(p6);
-        repo.removeById(p2.getId());
+        repo.removeById(p3.getId());
         repo.removeById(6);
         Product[] expected = {};
         Product[] actual = repo.findAll();
